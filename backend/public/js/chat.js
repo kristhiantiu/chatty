@@ -7,8 +7,11 @@ socket.on('message', (message) => {
 document.querySelector('#sendMessageForm').addEventListener('submit', (e) => {
   const message = e.target.elements.message.value;
   console.log(message);
-  socket.emit('sendMessage', message, (fromServer) => {
-    console.log('The message was delivered', fromServer);
+  socket.emit('sendMessage', message, (error) => {
+    if (error) {
+      return console.log('Profanity is not allowed');  
+    }
+    console.log('The message was delivered');
   });
   e.preventDefault()
 });
@@ -21,6 +24,8 @@ document.querySelector('#send-location').addEventListener('click', (e) => {
   navigator.geolocation.getCurrentPosition((position) => {
     console.log(position); 
     const { latitude, longitude } = position.coords;
-    socket.emit('sendLocation', { latitude, longitude });
+    socket.emit('sendLocation', { latitude, longitude }, () => {
+      console.log('Location shared!');
+    });
   });
 });
