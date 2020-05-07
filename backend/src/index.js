@@ -22,9 +22,10 @@ io.on('connection', (socket) => {
   socket.emit('message', 'Welcome')
   socket.broadcast.emit('message', 'User Joined!');
 
-  socket.on('sendMessage', (message) => {
+  socket.on('sendMessage', (message, callback) => {
     console.log(message)
     io.emit('message', message);
+    callback('Delivered')
   });
 
   socket.on('sendLocation', ({ latitude, longitude }) => {
