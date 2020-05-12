@@ -31,8 +31,8 @@ io.on('connection', (socket) => {
 
     socket.join(user.room)
 
-    socket.emit('message', generateMessage(`Welcome ${username}!`))
-    socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} has joined!`));
+    socket.emit('message', generateMessage(user.username, `Welcome ${username}!`))
+    socket.broadcast.to(user.room).emit('message', generateMessage(user.username, `${user.username} has joined!`));
 
     callback()
   });
